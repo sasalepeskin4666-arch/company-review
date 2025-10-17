@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КомпаниРевью - честные отзывы о компаниях</title>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --gray-color: #5f6368;
+            --border-color: #dadce0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            max-width: 600px;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1669d6;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(26, 115, 232, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #6c8ef2);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .content {
+            flex: 3;
+        }
+        
+        .sidebar {
+            flex: 1;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Company List */
+        .company-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .company-item:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .company-item:last-child {
+            border-bottom: none;
+        }
+        
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+            color: var(--gray-color);
+        }
+        
+        .company-info {
+            flex-grow: 1;
+        }
+        
+        .company-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .company-name a {
+            color: var(--dark-color);
+            text-decoration: none;
+        }
+        
+        .company-name a:hover {
+            color: var(--primary-color);
+        }
+        
+        .company-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .rating-stars {
+            color: var(--warning-color);
+            margin-right: 10px;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+        }
+        
+        .company-description {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+        
+        .company-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        /* Review Item */
+        .review-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .review-author.anonymous {
+            color: var(--gray-color);
+            font-style: italic;
+        }
+        
+        .review-date {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            margin-bottom: 10px;
+        }
+        
+        .review-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .review-text {
+            margin-bottom: 10px;
+        }
+        
+        .review-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .review-action {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .review-action:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Filters */
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-option input {
+            margin-right: 8px;
+        }
+        
+        /* Company Detail Page */
+        .company-detail {
+            display: none;
+        }
+        
+        .company-header {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        
+        .company-header-logo {
+            width: 120px;
+            height: 120px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            font-size: 40px;
+            color: var(--gray-color);
+        }
+        
+        .company-header-info {
+            flex-grow: 1;
+        }
+        
+        .company-header-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .company-header-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .company-header-rating .rating-stars {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .company-header-rating .rating-value {
+            font-size: 1.5rem;
+        }
+        
+        .company-header-description {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .company-header-meta {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .back-button {
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+        }
+        
+        /* Review Form */
+        .review-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .rating-selector {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .rating-star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .rating-star:hover, .rating-star.active {
+            color: var(--warning-color);
+        }
+        
+        .anonymous-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .anonymous-option input {
+            width: auto;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc1c6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #3c4043;
+            color: #9aa0a6;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .company-header {
+                flex-direction: column;
+            }
+            
+            .company-header-logo {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i>💼</i> КомпаниРевью
+            </a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Поиск компаний...">
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">Главная</a>
+                <a href="#" class="nav-link" data-page="categories">Категории</a>
+                <a href="#" class="nav-link" data-page="top-companies">Лучшие компании</a>
+                <a href="#" class="nav-link" data-page="about">О проекте</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Честные отзывы о компаниях</h1>
+            <p>Узнайте мнение сотрудников и клиентов о компаниях, поделитесь своим опытом работы или сотрудничества</p>
+            <a href="#" class="btn btn-primary" id="add-review-btn">Добавить отзыв</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Content -->
+        <div class="content">
+            <!-- Home Page -->
+            <div id="home-page" class="page active">
+                <!-- Popular Companies -->
+                <div class="card">
+                    <h2 class="section-title">Популярные компании</h2>
+                    
+                    <div class="company-item" data-company="techprom">
+                        <div class="company-logo">🏢</div>
+                        <div class="company-info">
+                            <h3 class="company-name">ООО "ТехноПром"</h3>
+                            <div class="company-rating">
+                                <div class="rating-stars">★★★★☆</div>
+                                <div class="rating-value">4.2</div>
+                                <div class="rating-count">(128 отзывов)</div>
+                            </div>
+                            <p class="company-description">Производство промышленного оборудования и автоматизация производственных процессов</p>
+                            <div class="company-meta">
+                                <span>IT, промышленность</span>
+                                <span>500-1000 сотрудников</span>
+                                <span>Москва</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item" data-company="marketplus">
+                        <div class="company-logo">🛒</div>
+                        <div class="company-info">
+                            <h3 class="company-name">Торговая сеть "МаркетПлюс"</h3>
+                            <div class="company-rating">
+                                <div class="rating-stars">★★★☆☆</div>
+                                <div class="rating-value">3.5</div>
+                                <div class="rating-count">(94 отзыва)</div>
+                            </div>
+                            <p class="company-description">Крупная сеть супермаркетов в центральном регионе России</p>
+                            <div class="company-meta">
+                                <span>Розничная торговля</span>
+                                <span>1000+ сотрудников</span>
+                                <span>Москва, Санкт-Петербург</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item" data-company="webstudio">
+                        <div class="company-logo">💻</div>
+                        <div class="company-info">
+                            <h3 class="company-name">"ВебСтудио"</h3>
+                            <div class="company-rating">
+                                <div class="rating-stars">★★★★★</div>
+                                <div class="rating-value">4.8</div>
+                                <div class="rating-count">(67 отзывов)</div>
+                            </div>
+                            <p class="company-description">Разработка веб-сайтов и мобильных приложений, цифровой маркетинг</p>
+                            <div class="company-meta">
+                                <span>IT, разработка ПО</span>
+                                <span>50-100 сотрудников</span>
+                                <span>Екатеринбург</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Reviews -->
+                <div class="card">
+                    <h2 class="section-title">Последние отзывы</h2>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="review-author">Анна К.</div>
+                            <div class="review-date">15 мая 2023</div>
+                        </div>
+                        <div class="review-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                        </div>
+                        <h4 class="review-title">Стабильная компания с перспективами роста</h4>
+                        <p class="review-text">Работаю в компании уже 3 года. Начинала junior-разработчиком, сейчас team lead. Компания предоставляет возможности для роста, есть корпоративное обучение. Зарплата достойная, выплачивают вовремя. Из минусов - иногда бывают авралы перед релизами.</p>
+                        <div class="review-actions">
+                            <span class="review-action">👍 Полезно (12)</span>
+                            <span class="review-action">👎 Не полезно (2)</span>
+                            <span class="review-action">Ответить</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="review-author anonymous">Анонимный пользователь</div>
+                            <div class="review-date">12 мая 2023</div>
+                        </div>
+                        <div class="review-rating">
+                            <div class="rating-stars">★★☆☆☆</div>
+                        </div>
+                        <h4 class="review-title">Плохая организация рабочих процессов</h4>
+                        <p class="review-text">Проработал в компании 8 месяцев. Постоянные изменения требований, нет четкого плана работ. Руководство не прислушивается к мнению сотрудников. Соцпакет минимальный, премии практически нет. Не рекомендую к трудоустройству.</p>
+                        <div class="review-actions">
+                            <span class="review-action">👍 Полезно (8)</span>
+                            <span class="review-action">👎 Не полезно (5)</span>
+                            <span class="review-action">Ответить</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Company Detail Pages -->
+            <div id="company-detail" class="page company-detail">
+                <div class="back-button" id="back-to-home">
+                    <i>←</i> Назад к списку компаний
+                </div>
+                
+                <div class="card">
+                    <div class="company-header">
+                        <div class="company-header-logo" id="company-logo">🏢</div>
+                        <div class="company-header-info">
+                            <h1 class="company-header-name" id="company-name">ООО "ТехноПром"</h1>
+                            <div class="company-header-rating">
+                                <div class="rating-stars" id="company-rating-stars">★★★★☆</div>
+                                <div class="rating-value" id="company-rating-value">4.2</div>
+                                <div class="rating-count" id="company-rating-count">(128 отзывов)</div>
+                            </div>
+                            <p class="company-header-description" id="company-description">Производство промышленного оборудования и автоматизация производственных процессов</p>
+                            <div class="company-header-meta" id="company-meta">
+                                <span>IT, промышленность</span>
+                                <span>500-1000 сотрудников</span>
+                                <span>Москва</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="reviews">Отзывы</div>
+                        <div class="tab" data-tab="about">О компании</div>
+                        <div class="tab" data-tab="add-review">Оставить отзыв</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="reviews-tab">
+                        <!-- Отзывы будут загружаться динамически -->
+                    </div>
+                    
+                    <div class="tab-content" id="about-tab">
+                        <h3>О компании</h3>
+                        <p>ООО "ТехноПром" - ведущий производитель промышленного оборудования в России. Компания основана в 2005 году и с тех пор успешно развивается на рынке.</p>
+                        
+                        <h4>Основные направления деятельности:</h4>
+                        <ul>
+                            <li>Производство промышленного оборудования</li>
+                            <li>Автоматизация производственных процессов</li>
+                            <li>Техническое обслуживание и ремонт</li>
+                            <li>Консультационные услуги</li>
+                        </ul>
+                        
+                        <h4>Контактная информация:</h4>
+                        <p>Адрес: Москва, ул. Промышленная, д. 15</p>
+                        <p>Телефон: +7 (495) 123-45-67</p>
+                        <p>Email: info@techprom.ru</p>
+                        <p>Сайт: www.techprom.ru</p>
+                    </div>
+                    
+                    <div class="tab-content" id="add-review-tab">
+                        <h3>Оставить отзыв о компании</h3>
+                        <p class="company-note">Вы можете оставить отзыв анонимно или указать своё имя</p>
+                        <form class="review-form" id="review-form">
+                            <div class="form-group">
+                                <label class="form-label">Ваше имя (необязательно)</label>
+                                <input type="text" class="form-input" id="review-author" placeholder="Как к вам обращаться?">
+                                <div class="anonymous-option">
+                                    <input type="checkbox" id="anonymous-review">
+                                    <label for="anonymous-review">Оставить отзыв анонимно</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Оценка</label>
+                                <div class="rating-selector" id="rating-selector">
+                                    <span class="rating-star" data-rating="1">★</span>
+                                    <span class="rating-star" data-rating="2">★</span>
+                                    <span class="rating-star" data-rating="3">★</span>
+                                    <span class="rating-star" data-rating="4">★</span>
+                                    <span class="rating-star" data-rating="5">★</span>
+                                </div>
+                                <input type="hidden" id="review-rating" value="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Заголовок отзыва</label>
+                                <input type="text" class="form-input" id="review-title" placeholder="Кратко опишите ваше впечатление" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Текст отзыва</label>
+                                <textarea class="form-textarea" id="review-text" placeholder="Подробно опишите ваш опыт взаимодействия с компанией" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other Pages -->
+            <div id="categories-page" class="page company-detail">
+                <h2>Категории компаний</h2>
+                <p>Страница категорий находится в разработке...</p>
+            </div>
+            
+            <div id="top-companies-page" class="page company-detail">
+                <h2>Лучшие компании</h2>
+                <p>Страница лучших компаний находится в разработке...</p>
+            </div>
+            
+            <div id="about-page" class="page company-detail">
+                <h2>О проекте</h2>
+                <p>Страница о проекте находится в разработке...</p>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Add Review Button -->
+            <div class="card">
+                <h3>Поделитесь опытом</h3>
+                <p>Расскажите о своей компании, помогите другим сделать правильный выбор</p>
+                <a href="#" class="btn btn-primary" style="width: 100%; margin-top: 15px;" id="sidebar-add-review">Написать отзыв</a>
+            </div>
+            
+            <!-- Filters -->
+            <div class="card">
+                <h3 class="section-title">Фильтры</h3>
+                
+                <div class="filter-group">
+                    <div class="filter-title">Отрасль</div>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="industry1">
+                            <label for="industry1">IT и технологии</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="industry2">
+                            <label for="industry2">Финансы и банки</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="industry3">
+                            <label for="industry3">Розничная торговля</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="industry4">
+                            <label for="industry4">Производство</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="industry5">
+                            <label for="industry5">Медицина</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-title">Размер компании</div>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="size1">
+                            <label for="size1">Малый бизнес (до 50 чел.)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="size2">
+                            <label for="size2">Средний бизнес (50-500 чел.)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="size3">
+                            <label for="size3">Крупный бизнес (500+ чел.)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%;">Применить фильтры</button>
+            </div>
+            
+            <!-- Top Companies -->
+            <div class="card">
+                <h3 class="section-title">Лучшие компании</h3>
+                
+                <div class="company-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                    <div class="company-logo" style="width: 40px; height: 40px; font-size: 16px;">🏆</div>
+                    <div class="company-info">
+                        <div class="company-name" style="font-size: 1rem;">"Инновационные решения"</div>
+                        <div class="company-rating">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-value">4.9</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="company-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                    <div class="company-logo" style="width: 40px; height: 40px; font-size: 16px;">🚀</div>
+                    <div class="company-info">
+                        <div class="company-name" style="font-size: 1rem;">"ТехноЛаб"</div>
+                        <div class="company-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-value">4.7</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="company-item" style="padding: 10px 0;">
+                    <div class="company-logo" style="width: 40px; height: 40px; font-size: 16px;">💡</div>
+                    <div class="company-info">
+                        <div class="company-name" style="font-size: 1rem;">"КреативГрупп"</div>
+                        <div class="company-rating">
+                            <div class="rating-stars">★★★★☆</div>
+                            <div class="rating-value">4.6</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="footer-title">КомпаниРевью</h3>
+                    <p>Платформа для честных отзывов о компаниях от сотрудников и клиентов.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Навигация</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="nav-link" data-page="home">Главная</a></li>
+                        <li><a href="#" class="nav-link" data-page="categories">Категории компаний</a></li>
+                        <li><a href="#" class="nav-link" data-page="top-companies">Лучшие компании</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">О проекте</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Помощь</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Правила сайта</a></li>
+                        <li><a href="#">Часто задаваемые вопросы</a></li>
+                        <li><a href="#">Для компаний</a></li>
+                        <li><a href="#">Обратная связь</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Контакты</h3>
+                    <ul class="footer-links">
+                        <li>Email: info@companyreview.ru</li>
+                        <li>Телефон: +7 (495) 123-45-67</li>
+                        <li>Адрес: Москва, ул. Примерная, д. 1</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 КомпаниРевью. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Данные компаний с возможностью хранения в localStorage
+        let companies = JSON.parse(localStorage.getItem('companies')) || {
+            techprom: {
+                name: 'ООО "ТехноПром"',
+                logo: '🏢',
+                rating: 4.2,
+                reviewsCount: 2,
+                description: 'Производство промышленного оборудования и автоматизация производственных процессов',
+                meta: ['IT, промышленность', '500-1000 сотрудников', 'Москва'],
+                reviews: [
+                    {
+                        author: 'Анна К.',
+                        isAnonymous: false,
+                        date: '15 мая 2023',
+                        rating: 4,
+                        title: 'Стабильная компания с перспективами роста',
+                        text: 'Работаю в компании уже 3 года. Начинала junior-разработчиком, сейчас team lead. Компания предоставляет возможности для роста, есть корпоративное обучение. Зарплата достойная, выплачивают вовремя. Из минусов - иногда бывают авралы перед релизами.',
+                        likes: 12,
+                        dislikes: 2
+                    },
+                    {
+                        author: 'Анонимный пользователь',
+                        isAnonymous: true,
+                        date: '12 мая 2023',
+                        rating: 2,
+                        title: 'Плохая организация рабочих процессов',
+                        text: 'Проработал в компании 8 месяцев. Постоянные изменения требований, нет четкого плана работ. Руководство не прислушивается к мнению сотрудников. Соцпакет минимальный, премии практически нет. Не рекомендую к трудоустройству.',
+                        likes: 8,
+                        dislikes: 5
+                    }
+                ]
+            },
+            marketplus: {
+                name: 'Торговая сеть "МаркетПлюс"',
+                logo: '🛒',
+                rating: 3.5,
+                reviewsCount: 1,
+                description: 'Крупная сеть супермаркетов в центральном регионе России',
+                meta: ['Розничная торговля', '1000+ сотрудников', 'Москва, Санкт-Петербург'],
+                reviews: [
+                    {
+                        author: 'Ольга В.',
+                        isAnonymous: false,
+                        date: '10 мая 2023',
+                        rating: 4,
+                        title: 'Удобно работать рядом с домом',
+                        text: 'Работаю кассиром уже 2 года. График удобный, зарплата стабильная. Коллектив дружный, руководство адекватное. Из минусов - иногда бывают сложные клиенты, но это везде так.',
+                        likes: 5,
+                        dislikes: 1
+                    }
+                ]
+            },
+            webstudio: {
+                name: '"ВебСтудио"',
+                logo: '💻',
+                rating: 4.8,
+                reviewsCount: 1,
+                description: 'Разработка веб-сайтов и мобильных приложений, цифровой маркетинг',
+                meta: ['IT, разработка ПО', '50-100 сотрудников', 'Екатеринбург'],
+                reviews: [
+                    {
+                        author: 'Сергей П.',
+                        isAnonymous: false,
+                        date: '18 мая 2023',
+                        rating: 5,
+                        title: 'Отличная компания для карьерного роста',
+                        text: 'Пришел в компанию junior-разработчиком, через год стал middle. Очень сильная команда, интересные проекты. Зарплата выше рынка, бонусы за успешные проекты. Рекомендую!',
+                        likes: 15,
+                        dislikes: 0
+                    }
+                ]
+            }
+        };
+
+        // Функция для сохранения данных в localStorage
+        function saveCompanies() {
+            localStorage.setItem('companies', JSON.stringify(companies));
+        }
+
+        // Функция для переключения страниц
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+            
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+                activePage.style.display = 'block';
+            }
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (pageId === 'company-detail') {
+                document.querySelector('.nav-link[data-page="home"]').classList.add('active');
+            } else {
+                document.querySelector(`.nav-link[data-page="${pageId.replace('-page', '')}"]`).classList.add('active');
+            }
+        }
+
+        // Функция для показа деталей компании
+        function showCompanyDetail(companyId) {
+            const company = companies[companyId];
+            if (!company) return;
+            
+            document.getElementById('company-logo').textContent = company.logo;
+            document.getElementById('company-name').textContent = company.name;
+            
+            const fullStars = Math.floor(company.rating);
+            const halfStar = company.rating % 1 >= 0.5;
+            let starsHtml = '';
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    starsHtml += '★';
+                } else if (i === fullStars && halfStar) {
+                    starsHtml += '★';
+                } else {
+                    starsHtml += '☆';
+                }
+            }
+            
+            document.getElementById('company-rating-stars').textContent = starsHtml;
+            document.getElementById('company-rating-value').textContent = company.rating;
+            document.getElementById('company-rating-count').textContent = `(${company.reviewsCount} отзывов)`;
+            document.getElementById('company-description').textContent = company.description;
+            
+            const metaContainer = document.getElementById('company-meta');
+            metaContainer.innerHTML = '';
+            company.meta.forEach(item => {
+                const span = document.createElement('span');
+                span.textContent = item;
+                metaContainer.appendChild(span);
+            });
+            
+            // Заполнить отзывы
+            const reviewsContainer = document.getElementById('reviews-tab');
+            reviewsContainer.innerHTML = '';
+            
+            company.reviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review-item';
+                
+                let reviewStars = '';
+                for (let i = 0; i < 5; i++) {
+                    reviewStars += i < review.rating ? '★' : '☆';
+                }
+                
+                const authorClass = review.isAnonymous ? 'review-author anonymous' : 'review-author';
+                
+                reviewElement.innerHTML = `
+                    <div class="review-header">
+                        <div class="${authorClass}">${review.author}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                    <div class="review-rating">
+                        <div class="rating-stars">${reviewStars}</div>
+                    </div>
+                    <h4 class="review-title">${review.title}</h4>
+                    <p class="review-text">${review.text}</p>
+                    <div class="review-actions">
+                        <span class="review-action">👍 Полезно (${review.likes})</span>
+                        <span class="review-action">👎 Не полезно (${review.dislikes})</span>
+                        <span class="review-action">Ответить</span>
+                    </div>
+                `;
+                
+                reviewsContainer.appendChild(reviewElement);
+            });
+            
+            // Сохраняем текущую компанию для формы отзыва
+            document.getElementById('review-form').dataset.company = companyId;
+            
+            showPage('company-detail');
+        }
+
+        // Функция для добавления отзыва
+        function addReview(companyId, reviewData) {
+            const company = companies[companyId];
+            if (!company) return;
+            
+            company.reviews.unshift(reviewData);
+            company.reviewsCount++;
+            
+            const totalRating = company.reviews.reduce((sum, review) => sum + review.rating, 0);
+            company.rating = Math.round((totalRating / company.reviews.length) * 10) / 10;
+            
+            saveCompanies();
+            showCompanyDetail(companyId);
+            switchTab('reviews');
+            
+            alert('Ваш отзыв успешно добавлен!');
+        }
+
+        // Функция для переключения вкладок
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home-page');
+            
+            document.querySelectorAll('.company-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const companyId = this.getAttribute('data-company');
+                    showCompanyDetail(companyId);
+                });
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    showPage(`${page}-page`);
+                });
+            });
+            
+            document.getElementById('back-to-home').addEventListener('click', function() {
+                showPage('home-page');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+            
+            // Обработчик для формы отзыва
+            document.getElementById('review-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const authorInput = document.getElementById('review-author');
+                const isAnonymous = document.getElementById('anonymous-review').checked;
+                const rating = parseInt(document.getElementById('review-rating').value);
+                const title = document.getElementById('review-title').value;
+                const text = document.getElementById('review-text').value;
+                const companyId = this.dataset.company;
+                
+                if (rating === 0) {
+                    alert('Пожалуйста, выберите оценку');
+                    return;
+                }
+                
+                let authorName;
+                if (isAnonymous || authorInput.value.trim() === '') {
+                    authorName = 'Анонимный пользователь';
+                } else {
+                    authorName = authorInput.value.trim();
+                }
+                
+                const reviewData = {
+                    author: authorName,
+                    isAnonymous: isAnonymous || authorInput.value.trim() === '',
+                    date: new Date().toLocaleDateString('ru-RU'),
+                    rating: rating,
+                    title: title,
+                    text: text,
+                    likes: 0,
+                    dislikes: 0
+                };
+                
+                addReview(companyId, reviewData);
+                
+                this.reset();
+                document.getElementById('review-rating').value = 0;
+                document.querySelectorAll('.rating-star').forEach(star => {
+                    star.classList.remove('active');
+                });
+                document.getElementById('anonymous-review').checked = false;
+            });
+            
+            // Обработчик для звезд рейтинга
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    document.getElementById('review-rating').value = rating;
+                    
+                    document.querySelectorAll('.rating-star').forEach(s => {
+                        s.classList.remove('active');
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Обработчик для чекбокса анонимности
+            document.getElementById('anonymous-review').addEventListener('change', function() {
+                const authorInput = document.getElementById('review-author');
+                if (this.checked) {
+                    authorInput.disabled = true;
+                    authorInput.placeholder = 'Отзыв будет анонимным';
+                } else {
+                    authorInput.disabled = false;
+                    authorInput.placeholder = 'Как к вам обращаться?';
+                }
+            });
+            
+            // Обработчики для кнопок добавления отзыва
+            document.getElementById('add-review-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showCompanyDetail('techprom');
+                switchTab('add-review');
+            });
+            
+            document.getElementById('sidebar-add-review').addEventListener('click', function(e) {
+                e.preventDefault();
+                showCompanyDetail('techprom');
+                switchTab('add-review');
+            });
+            
+            // Обработка кнопок "Полезно/Не полезно"
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('review-action')) {
+                    const text = e.target.textContent;
+                    const countMatch = text.match(/\((\d+)\)/);
+                    if (countMatch) {
+                        const count = parseInt(countMatch[1]) + 1;
+                        e.target.textContent = text.replace(/\(\d+\)/, `(${count})`);
+                    }
+                }
+            });
+            
+            // Обработка формы поиска
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    alert(`Поиск: ${this.value}`);
+                    this.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
